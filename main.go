@@ -22,20 +22,20 @@ func keyValueParser(line []string) (string, string) {
 	hasKey := false
 	var key string
 	var value string
-	len := len(line)
+
 	// 「#」で始まる行はスキップ（コメント）
 	if regexp.MustCompile(`^#`).Match([]byte(line[0])) {
 		key = SKIP_LINE
 		return key, value
 	}
-	for i := 0; i < len; i++ {
-		if line[i] == "" {
+	for _, word := range line {
+		if word == "" {
 			continue
 		} else if !hasKey {
-			key = line[i]
+			key = word
 			hasKey = true
 		} else {
-			value = line[i]
+			value = word
 		}
 	}
 
