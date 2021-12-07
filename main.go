@@ -60,13 +60,13 @@ func main(){
         line := strings.Split(scanner.Text()," ")
         key, value := keyValueParser(line)
 
-        switch key {
-        case "Host":
+        switch strings.ToUpper(key) {
+        case "HOST":
             host_list = append(host_list, tmp_host)
             tmp_host = new(Host)
             tmp_host.host = value
             break
-        case "HostName":
+        case "HOSTNAME":
             tmp_host.host_name = value
             break
         case SKIP_LINE:
