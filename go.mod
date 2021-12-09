@@ -1,4 +1,4 @@
-module example.com/ssh-host-manager
+module github.com/h16110s/ssh-host-manager
 
 go 1.16
 
