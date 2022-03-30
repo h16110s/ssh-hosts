@@ -27,7 +27,7 @@ const SKIP_LINE = "__SKIP_LINE__"
 
 func ls(cmd *cobra.Command, args []string) {
 	homeDir, _ := os.UserHomeDir()
-	data, _ := os.Open(homeDir + "/.ssh/config")
+	data, _ := os.Open(homeDir + CONFIG_PATH)
 
 	var hosts []*model.Host
 

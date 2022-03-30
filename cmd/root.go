@@ -11,6 +11,8 @@ var rootCmd = &cobra.Command{
 	Run:   ls, // 何も指定しなければlsと同じ挙動
 }
 
+var CONFIG_PATH =  "/.ssh/config"
+
 func Execute() error {
 	return rootCmd.Execute()
 }
