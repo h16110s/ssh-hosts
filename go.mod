@@ -1,4 +1,4 @@
-module github.com/h16110s/ssh-host-manager
+module github.com/h16110s/ssh-hosts
 
 go 1.20
 

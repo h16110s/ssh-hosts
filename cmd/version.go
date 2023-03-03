@@ -12,7 +12,7 @@ var versionCmd = &cobra.Command{
 	Short: "show version",
 	Long:  `show version`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("ssh-host-manager version " + "0.0.0")
+		fmt.Println("ssh-hosts version " + "0.0.0")
 	},
 }
 

@@ -10,8 +10,8 @@
 
 # install
 ```
-git clone https://github.com/h16110s/ssh-host-manager.git
-cd ssh-host-manager
+git clone https://github.com/h16110s/ssh-hosts.git
+cd ssh-hosts
 sudo make install
 ```
 
