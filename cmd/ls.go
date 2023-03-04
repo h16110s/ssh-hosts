@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/h16110s/ssh-host-manager/model"
+	"github.com/h16110s/ssh-hosts/model"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 )
