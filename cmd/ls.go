@@ -43,10 +43,9 @@ func ls(cmd *cobra.Command, args []string) {
 			hosts = append(hosts, tmpHost)
 			tmpHost = new(model.Host)
 			tmpHost.Host = value
-		case "HOSTNAME":
-			tmpHost.HostName = value
 		case SKIP_LINE:
 		default:
+			tmpHost.Setter(key, value)
 		}
 	}
 	// 最後のデータを追加
