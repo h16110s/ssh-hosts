@@ -26,14 +26,37 @@ var lsCmd = &cobra.Command{
 const SKIP_LINE = "__SKIP_LINE__"
 
 func ls(cmd *cobra.Command, args []string) {
+	// ホームディレクトリを取得
 	homeDir, _ := os.UserHomeDir()
-	data, _ := os.Open(homeDir + CONFIG_PATH)
-
-	var hosts []*model.Host
-
+	data, err := os.Open(homeDir + CONFIG_PATH)
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
+	}
 	defer data.Close()
+
+	// ホスト情報をパース
+	hosts := parseHosts(data)
+
+	fmt.Println("ssh hosts")
+
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Host", "HostName"})
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
+
+	for _, v := range hosts {
+		row := []string{v.Host, v.HostName}
+		table.Append(row)
+	}
+	table.Render() // 出力
+}
+
+func parseHosts(data *os.File) []*model.Host {
 	scanner := bufio.NewScanner(data)
+	hosts := []*model.Host{}
 	tmpHost := new(model.Host)
+
 	for scanner.Scan() {
 		line := strings.Split(scanner.Text(), " ")
 		key, value := keyValueParser(line)
@@ -48,21 +71,12 @@ func ls(cmd *cobra.Command, args []string) {
 			tmpHost.Setter(key, value)
 		}
 	}
-	// 最後のデータを追加
-	hosts = append(hosts, tmpHost)
-	fmt.Println("ssh hosts")
 
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Host", "HostName"})
-	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-	table.SetCenterSeparator("|")
-
-	// 1個目のデータは空データになってる(はず)
-	for _, v := range hosts[1:] {
-		row := []string{v.Host, v.HostName}
-		table.Append(row)
+	if tmpHost.Host != "" {
+		hosts = append(hosts, tmpHost)
 	}
-	table.Render() // Send output
+
+	return hosts
 }
 
 func keyValueParser(line []string) (string, string) {
@@ -75,6 +89,7 @@ func keyValueParser(line []string) (string, string) {
 		key = SKIP_LINE
 		return key, value
 	}
+
 	for _, word := range line {
 		if word == "" {
 			continue
@@ -90,5 +105,6 @@ func keyValueParser(line []string) (string, string) {
 	if !hasKey {
 		key = SKIP_LINE
 	}
+
 	return key, value
 }
