@@ -1,6 +1,7 @@
 package model
 
 import (
+	"reflect"
 	"strings"
 )
 
@@ -198,4 +199,13 @@ func (h *Host) Setter(key string, value string) {
 	case "VISUALHOSTKEY":
 		h.VisualHostKey = value
 	}
+}
+
+func (h *Host) GetFieldNames() []string {
+	var fields []string
+	v := reflect.ValueOf(h).Elem()
+	for i := 0; i < v.NumField(); i++ {
+		fields = append(fields, v.Type().Field(i).Name)
+	}
+	return fields
 }
